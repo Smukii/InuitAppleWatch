@@ -1,0 +1,317 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1 effective-5.10 (swiftlang-6.1.0.110.21 clang-1700.0.13.3)
+// swift-module-flags: -target x86_64-apple-ios9.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name InuitCore
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os.log
+import os
+public class DefaultMappers {
+  public init()
+  public func toJson(fromData data: Foundation.Data?) throws -> Swift.Dictionary<Swift.AnyHashable, Any>
+  public func skip<T>(data: T) throws -> T
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ResponseMetaData {
+  final public let response: Foundation.URLResponse?
+  final public let cachedResponse: Foundation.CachedURLResponse?
+  @objc deinit
+}
+extension Foundation.URLRequest {
+  public mutating func addQueryParameter(_ key: Swift.String, value: Swift.String)
+  public mutating func addFragment(_ fragment: Swift.String)
+}
+public class MultipartUploadFile : InuitCore.MultipartUploadable {
+  final public let contentDisposition: Swift.String
+  final public let contentName: Swift.String
+  final public let contentType: Swift.String
+  final public let fileName: Swift.String
+  final public let data: Foundation.Data
+  public init(contentDisposition: Swift.String, contentName: Swift.String, contentType: Swift.String, fileName: Swift.String, data: Foundation.Data)
+  @objc deinit
+}
+public struct FutureChain {
+  public static func create() -> InuitCore.Future<()>
+}
+public struct Future<T> {
+  public typealias ResultType = InuitCore.Result<T>
+  public typealias Completion = (InuitCore.Future<T>.ResultType) -> ()
+  public typealias Operation = (@escaping InuitCore.Future<T>.Completion) -> ()
+  public init(_ operation: @escaping InuitCore.Future<T>.Operation)
+  public func done(_ completion: @escaping InuitCore.Future<T>.Completion)
+}
+extension InuitCore.Future {
+  public func then<U>(_ f: @escaping (T) -> InuitCore.Future<U>) -> InuitCore.Future<U>
+  public func then<U>(_ f: @escaping (T) -> U) -> InuitCore.Future<U>
+}
+public enum MappingError : Swift.Error {
+  case generalError(source: Any?)
+  case insufficientData(source: Any?)
+  case noCachedData
+}
+extension InuitCore.DataController {
+  open func taskGet(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskPost(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskPut(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskHead(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskDelete(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskOptions(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskConnect(_ request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskMultipart(_ request: Foundation.URLRequest, multipartUploadObject: InuitCore.MultipartUpload, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func task(_ method: Swift.String, request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func task(request: Foundation.URLRequest, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+  open func taskMultipart(request: Foundation.URLRequest, data: Foundation.Data, completed: ((_ response: InuitCore.ResponseMetaData, _ result: () throws -> SuccessOutput) -> Swift.Void)?) -> any InuitCore.ControlableSessionTask
+}
+public protocol Controlable {
+  func resume()
+  func suspend()
+  func cancel()
+}
+@_hasMissingDesignatedInitializers public class DataTask : InuitCore.ControlableSessionTask {
+  public var sessionTask: Foundation.URLSessionTask {
+    get
+  }
+  public func resume()
+  @objc deinit
+}
+extension Foundation.Data {
+  public mutating func appendString(_ string: Swift.String)
+  public mutating func appendNewLine()
+}
+public protocol Observing : AnyObject {
+  associatedtype NotifyType
+  func observe(_ obj: Self.NotifyType)
+}
+public protocol Observable {
+  associatedtype ObservingType : InuitCore.Observing
+  var observers: [Self.ObservingType] { get set }
+  mutating func add(_ observer: Self.ObservingType)
+  mutating func remove(_ observer: Self.ObservingType)
+}
+extension InuitCore.Observable {
+  public mutating func add(_ observer: Self.ObservingType)
+  public mutating func remove(_ observer: Self.ObservingType)
+  public func notify(_ obj: Self.ObservingType.NotifyType)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class Session : ObjectiveC.NSObject, Foundation.URLSessionDelegate {
+  public static let sharedInstance: InuitCore.Session
+  public var urlSession: Foundation.URLSession!
+  @objc public func urlSession(_ session: Foundation.URLSession, didReceive challenge: Foundation.URLAuthenticationChallenge, completionHandler: @escaping (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+  @objc deinit
+}
+public protocol ControlableSessionTask : InuitCore.Controlable {
+  var sessionTask: Foundation.URLSessionTask { get }
+}
+extension InuitCore.ControlableSessionTask {
+  public func resume()
+  public func suspend()
+  public func cancel()
+}
+public class MultipartUpload {
+  final public let boundary: Swift.String
+  final public let multipartUploadObjects: [any InuitCore.MultipartUploadable]
+  public init(boundary: Swift.String, multipartUploadObjects: [any InuitCore.MultipartUploadable])
+  @objc deinit
+}
+public class AnyCache<Key, Item> : InuitCore.Caching {
+  public init<C>(_ cache: C) where Key == C.Key, Item == C.Item, C : InuitCore.Caching
+  public func item(for key: Key) -> Item?
+  public func cache(_ item: Item, for key: Key, expiration: Foundation.TimeInterval)
+  public func invalidateCache(for key: Key)
+  public func cacheExpired(for key: Key) -> Swift.Bool
+  public func expirationDate(for key: Key) -> Foundation.Date?
+  public func clear()
+  public func clearExpired()
+  @objc deinit
+}
+public class Event<Value> {
+  public typealias Handler = (Value) -> Swift.Void
+  public init(delegateQueue: Foundation.OperationQueue? = nil)
+  public func add(listener: Swift.AnyObject, handler: @escaping InuitCore.Event<Value>.Handler)
+  public func remove(listener: Swift.AnyObject)
+  public func raise(with value: Value)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class MultipartMapper {
+  @objc deinit
+}
+extension Swift.String {
+  public func addingPercentEncodingForQueryKeyOrValue() -> Swift.String
+}
+extension Swift.Collection {
+  public subscript(safe index: Self.Index) -> Self.Iterator.Element? {
+    get
+  }
+}
+public protocol ByteSizeProvidable {
+  var byteSize: Swift.Int { get }
+}
+open class MemoryCache<Key, Item> : InuitCore.Caching where Key : Swift.Hashable, Item : InuitCore.ByteSizeProvidable {
+  public init(memoryLimit: Swift.Int = 1024 * 1024 * 10, maxSingleItemSize: Swift.Int? = nil)
+  public func item(for key: Key) -> Item?
+  public func cache(_ item: Item, for key: Key)
+  public func cache(_ item: Item, for key: Key, expiration: Foundation.TimeInterval)
+  public func invalidateCache(for key: Key)
+  public func cacheExpired(for key: Key) -> Swift.Bool
+  public func expirationDate(for key: Key) -> Foundation.Date?
+  public func clear()
+  public func clearExpired()
+  @objc deinit
+}
+open class ObserverClosure<T> : InuitCore.Observing {
+  public typealias ClosureType = (_ value: T) -> Swift.Void
+  public init(_ closure: @escaping InuitCore.ObserverClosure<T>.ClosureType)
+  open func observe(_ value: T)
+  public typealias NotifyType = T
+  @objc deinit
+}
+public enum Result<T> {
+  case success(T)
+  case failure(any Swift.Error)
+}
+public enum ResultError : Swift.Error {
+  case general
+  case conversionFailed
+  public static func == (a: InuitCore.ResultError, b: InuitCore.ResultError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension InuitCore.Result {
+  public func map<U>(_ f: (T) -> U) -> InuitCore.Result<U>
+  public static func flatten<U>(_ v: InuitCore.Result<InuitCore.Result<U>>) -> InuitCore.Result<U>
+  public func flatMap<U>(_ f: (T) -> InuitCore.Result<U>) -> InuitCore.Result<U>
+}
+extension InuitCore.Result {
+  public func resolve() throws -> T
+}
+extension InuitCore.Result {
+  public static func from(_ value: T?, error: Foundation.NSError?) -> InuitCore.Result<T>
+  public static func from(_ value: T?) -> InuitCore.Result<T>
+}
+public enum DataControllerError : Swift.Error {
+  case http(Swift.Int)
+  case noData
+}
+open class DataController<SuccessInput, SuccessOutput, FailInput> {
+  public var callbackQueue: Foundation.OperationQueue
+  public init(session: Foundation.URLSession = Session.sharedInstance.urlSession, successMapper: @escaping (SuccessInput) throws -> SuccessOutput, failMapper: ((FailInput, any Swift.Error) -> any Swift.Error)? = nil, successPreprocessMapper: @escaping (Foundation.Data?) throws -> SuccessInput, failPreprocessMapper: @escaping (Foundation.Data?) throws -> FailInput)
+  @objc deinit
+}
+public protocol MultipartUploadable {
+  var contentDisposition: Swift.String { get }
+  var contentName: Swift.String { get }
+  var contentType: Swift.String { get }
+}
+extension Swift.Error {
+  public var isUserCancelled: Swift.Bool {
+    get
+  }
+}
+extension InuitCore.ResponseMetaData {
+  public var isCached: Swift.Bool {
+    get
+  }
+}
+public protocol Caching {
+  associatedtype Key
+  associatedtype Item
+  func item(for key: Self.Key) -> Self.Item?
+  func cache(_ item: Self.Item, for key: Self.Key, expiration: Foundation.TimeInterval)
+  func invalidateCache(for key: Self.Key)
+  func cacheExpired(for key: Self.Key) -> Swift.Bool
+  func expirationDate(for key: Self.Key) -> Foundation.Date?
+  func clear()
+  func clearExpired()
+}
+public enum LogPrivacy : Swift.Int {
+  case privateLog
+  case publicLog
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum LogLevel : Swift.Int {
+  case none
+  case fault
+  case error
+  case warning
+  case info
+  case debug
+  case full
+  @available(iOSApplicationExtension 10.0, *)
+  public func toOSLogType() -> os.OSLogType
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct Logging {
+  public static var printClosure: ((Swift.String, InuitCore.LogLevel, Swift.String?, InuitCore.LogPrivacy) -> Swift.Void)?
+  public static var level: InuitCore.LogLevel
+  public static var debug: Swift.Bool
+}
+@_hasMissingDesignatedInitializers public class Logger {
+  public class func log(_ level: InuitCore.LogLevel = .warning, _ message: Swift.String, function: Swift.String? = #function, file: Swift.String? = #file, line: Swift.Int? = #line, category: Swift.String? = nil, privacy: InuitCore.LogPrivacy = .publicLog)
+  public class func warningMessage(_ message: Swift.String, level: InuitCore.LogLevel, category: Swift.String? = nil, privacy: InuitCore.LogPrivacy = .publicLog)
+  @objc deinit
+}
+public func castToString(_ obj: Any?) -> Swift.String
+public func castToStringOrNil(_ obj: Any?) -> Swift.String?
+public func castToStringArray(_ obj: Any?) -> [Swift.String]
+public func castToStringArrayOrNil(_ obj: Any?) -> [Swift.String]?
+public func castToInt(_ obj: Any?) -> Swift.Int
+public func castToIntOrNil(_ obj: Any?) -> Swift.Int?
+public func castToDouble(_ obj: Any?) -> Swift.Double
+public func castToDoubleOrNil(_ obj: Any?) -> Swift.Double?
+public func castToBool(_ obj: Any?) -> Swift.Bool
+public func castToBoolOrNil(_ obj: Any?) -> Swift.Bool?
+public func castToInt64(_ obj: Any?) -> Swift.Int64
+public func castToInt64OrNil(_ obj: Any?) -> Swift.Int64?
+public func castToInt16(_ obj: Any?) -> Swift.Int16
+public func castToInt16OrNil(_ obj: Any?) -> Swift.Int16?
+public func castToNSNumberOrNil(_ obj: Any?) -> Foundation.NSNumber?
+public func castToDictionary(_ obj: Any?) -> Swift.Dictionary<Swift.AnyHashable, Any>
+public func castToDictionary(obj: Any?, process: (_ dictionary: Swift.Dictionary<Swift.AnyHashable, Any>) throws -> Swift.Void) rethrows
+public func castToDictionaryOrNil(_ obj: Any?) -> Swift.Dictionary<Swift.AnyHashable, Any>?
+public func castToDictionaryArray(_ obj: Any?) -> [Swift.Dictionary<Swift.AnyHashable, Any>]
+public func castToDictionaryArray(obj: Any?, process: (_ dictionaries: [Swift.Dictionary<Swift.AnyHashable, Any>]) throws -> Swift.Void) rethrows
+public func castToDictionaryArrayOrNil(_ obj: Any?) -> [Swift.Dictionary<Swift.AnyHashable, Any>]?
+public func castToJSONData(_ dictionary: Swift.Dictionary<Swift.AnyHashable, Any>) -> Foundation.Data?
+public class DataControllers {
+  public init()
+  @objc deinit
+}
+extension InuitCore.DataControllers {
+  public func json<SuccessOutput>(session: Foundation.URLSession = Session.sharedInstance.urlSession, successMapper: @escaping (Swift.Dictionary<Swift.AnyHashable, Any>) throws -> SuccessOutput, failMapper: ((Swift.Dictionary<Swift.AnyHashable, Any>, any Swift.Error) -> any Swift.Error)? = nil) -> InuitCore.DataController<Swift.Dictionary<Swift.AnyHashable, Any>, SuccessOutput, Swift.Dictionary<Swift.AnyHashable, Any>>
+}
+open class DispatchingGroup {
+  public init()
+  open func task(_ f: (_ completed: @escaping () -> Swift.Void) -> ()) -> InuitCore.DispatchingGroup
+  open func onFinish(_ f: @escaping () -> ())
+  @objc deinit
+}
+public class MultipartUploadForm : InuitCore.MultipartUploadable {
+  final public let contentDisposition: Swift.String
+  final public let contentName: Swift.String
+  final public let contentType: Swift.String
+  final public let charset: Swift.String
+  final public let value: Swift.String
+  public init(contentDisposition: Swift.String, contentName: Swift.String, contentType: Swift.String, charset: Swift.String = "utf-8", value: Swift.String)
+  @objc deinit
+}
+extension InuitCore.ResultError : Swift.Equatable {}
+extension InuitCore.ResultError : Swift.Hashable {}
+extension InuitCore.LogPrivacy : Swift.Equatable {}
+extension InuitCore.LogPrivacy : Swift.Hashable {}
+extension InuitCore.LogPrivacy : Swift.RawRepresentable {}
+extension InuitCore.LogLevel : Swift.Equatable {}
+extension InuitCore.LogLevel : Swift.Hashable {}
+extension InuitCore.LogLevel : Swift.RawRepresentable {}
